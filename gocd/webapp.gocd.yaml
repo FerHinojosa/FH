@@ -1,0 +1,42 @@
+#format_version: 2
+pipelines:
+  fa-webapp-ci:
+    group: WEBAPP
+    materials:
+      repo:
+        git: https://github.com/devopsteam03/TRAINER.git
+    stages:
+      - build:
+          jobs:
+            assemble:
+              artifacts:
+                - build:
+                    source: webappdemo/build/libs/*.war
+                    destination: war
+              tasks:
+              - exec:
+                  command: ./webappdemo/gradlew
+                  arguments:
+                    - "clean"
+                    - "assemble"
+                    - "-p"
+                    - "webappdemo"
+      - Test:
+            jobs:
+              unit_tests:
+                artifacts:
+                  - build:
+                      source: webappdemo/build/reports/tests/test/**/*
+                      destination: html_report
+                  - test:
+                      source: webappdemo/build/test-results/test/*.xml
+                      destination: test_results/
+                tabs:
+                  report: html_report/index.html
+                tasks:
+                - exec:
+                    command: ./webappdemo/gradlew
+                    arguments:
+                    - "test"
+                    - "-p"
+                    - "webappdemo"

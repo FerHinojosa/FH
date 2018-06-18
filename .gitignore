@@ -1,0 +1,6 @@
+vagrant/.vagrant/
+webappdemo/.gradle/
+webappdemo/build/
+.gradle/
+.vscode/
+

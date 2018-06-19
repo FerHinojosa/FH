@@ -21,6 +21,19 @@ task deploy() {
         ssh.run {
             session(remotes.development) {
                 execute 'echo Stopping Tomcat service...'
+                execute 'sudo systemctl stop tomcat8'
+                execute "sudo rm -f ${tomcat_webapps}/${war_file}", ignoreError: true
+                execute "sudo rm -rf ${tomcat_webapps}/${war_name}", ignoreError: true
+
+                execute 'echo Sending deployment archives...'
+                put from: "${war_path}/${war_file}", into: "/tmp/${war_file}"
+                execute "sudo cp -f /tmp/${war_file} ${tomcat_webapps}/${war_file}", ignoreError: true
+                remove "/tmp/${war_file}"
+
+                execute 'echo Starting Tomcat service...'
+                execute 'sudo systemctl start tomcat8'
+
+                /*execute 'echo Stopping Tomcat service...'
                 execute 'systemctl stop tomcat', ignoreError: true
                 remove '/var/libs/tomcat8/webapps/webappdemo', '/var/libs/tomcat8/webapps/joinfaces-gradle-war-example.war'
 
@@ -28,7 +41,7 @@ task deploy() {
                 put from: 'war/joinfaces-gradle-war-example.war', into: '/var/libs/tomcat8/webapps/joinfaces-gradle-war-example.war'
 
                 execute 'echo Starting Tomcat service...'
-                execute 'systemctl start tomcat', ignoreError: true
+                execute 'systemctl start tomcat', ignoreError: true*/
             }
         }
     }

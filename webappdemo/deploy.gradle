@@ -1,21 +1,16 @@
-
 plugins {
     id 'org.hidetake.ssh' version '2.9.0'
 }
-
 ssh.settings {
     knownHosts = allowAnyHosts
-
 }
-
 remotes {
     development {
-        host = "${dev_server}"
+        host = dev_server
         user = 'ubuntu'
-        identity = file("${HOME}/.ssh/id_rsa")
+        identity = file("${user_home}/id_rsa")
     }
 }
-
 task deploy() {
     doLast {
         ssh.run {
@@ -32,16 +27,6 @@ task deploy() {
 
                 execute 'echo Starting Tomcat service...'
                 execute 'sudo systemctl start tomcat8'
-
-                /*execute 'echo Stopping Tomcat service...'
-                execute 'systemctl stop tomcat', ignoreError: true
-                remove '/var/libs/tomcat8/webapps/webappdemo', '/var/libs/tomcat8/webapps/joinfaces-gradle-war-example.war'
-
-                execute 'echo Sending deployment archives...'
-                put from: 'war/joinfaces-gradle-war-example.war', into: '/var/libs/tomcat8/webapps/joinfaces-gradle-war-example.war'
-
-                execute 'echo Starting Tomcat service...'
-                execute 'systemctl start tomcat', ignoreError: true*/
             }
         }
     }

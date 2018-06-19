@@ -27,6 +27,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
+                sh './webappdemo/gradlew -b deploy.gradle deploy -p webappdemo'
             }
         }
     }

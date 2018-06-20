@@ -4,7 +4,7 @@ pipelines:
     group: WEBAPP
     materials:
       repo:
-        git: https://github.com/devopsteam03/TRAINER.git
+        git: https://github.com/devopsteam03/FH.git
     stages:
       - build:
           jobs:

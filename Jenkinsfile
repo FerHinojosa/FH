@@ -21,7 +21,7 @@ pipeline {
         stage('SonarQube Analysis..') {
             steps {
                 echo 'Executing sonarqube task'
-                sh './webappdemo/gradlew sonarqube -p webappdemo'
+                sh './webappdemo/gradlew  sonarqube -p webappdemo'
             }
         }
         stage('Deploy') {
